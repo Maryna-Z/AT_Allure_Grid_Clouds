@@ -1,4 +1,4 @@
-package tests.tutbyemail;
+package tests.yandex_email;
 
 import com.google.common.collect.ImmutableMap;
 import driver.Config;

@@ -47,8 +47,14 @@ public class YandexHomePage {
     public void logOut(){
         WebDriverWait wait = new WebDriverWait(driver, 10);
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a/span[contains(@class, 'wrapper')]/span[contains(@class, 'avatar__image')]"))).click();
-        //driver.findElement(By.xpath("//a/span[contains(@class, 'wrapper')]/span[contains(@class, 'avatar__image')]"));
-        //driver.findElement(By.xpath("//div[contains(@class, 'usermenu')]/ul[contains(@class, 'menu')]"));
+        driver.findElement(By.xpath("//a/span[contains(@class, 'wrapper')]/span[contains(@class, 'avatar__image')]"));
+        driver.findElement(By.xpath("//div[contains(@class, 'usermenu')]/ul[contains(@class, 'menu')]"));
         driver.findElement(By.xpath("//div[contains(@class, 'usermenu')]/ul[contains(@class, 'menu')]//following::li[last()]/a")).click();
     }
+
+    @Step("Login button is displayed")
+    public boolean loginButtonIsdisplayed(){
+        return loginButton.isDisplayed();
+    }
 }
+//*[@id="app"]/div[3]/div[4]/a[2]

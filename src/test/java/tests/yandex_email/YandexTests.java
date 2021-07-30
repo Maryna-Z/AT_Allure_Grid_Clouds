@@ -1,4 +1,4 @@
-package tests.tutbyemail;
+package tests.yandex_email;
 
 import io.qameta.allure.*;
 import org.junit.jupiter.api.Assertions;
@@ -15,7 +15,7 @@ import java.io.IOException;
 @Feature("Junit 5 support")
 @Tag("Yandex is started page")
 @ExtendWith(ScreenshotRules.class)
-public class TestsYandex extends BaseStep implements TestWatcher {
+public class YandexTests extends BaseStep implements TestWatcher {
     private YandexHomePage yandexHomePage;
 
     @Test
@@ -37,9 +37,8 @@ public class TestsYandex extends BaseStep implements TestWatcher {
     public void verifyLoginOut() throws IOException {
         yandexHomePage = new YandexHomePage(driver);
         yandexHomePage.loginToSite();
-        //getBytes("ErrorScreenShot.png");
-        //yandexHomePage.logOut();
-        //Assertions.assertTrue(tutByHomePage.authLinkIsDisplayed());
+        yandexHomePage.logOut();
+        Assertions.assertTrue(yandexHomePage.loginButtonIsdisplayed());
     }
 
 
