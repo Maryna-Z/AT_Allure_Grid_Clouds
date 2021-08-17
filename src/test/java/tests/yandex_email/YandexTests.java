@@ -25,7 +25,13 @@ public class YandexTests extends BaseStep implements TestWatcher {
     @Tag("stable")
     public void verifyAuthorization(){
         yandexHomePage = new YandexHomePage(driver);
-        yandexHomePage.loginToSite();
+        try{
+            yandexHomePage.loginToSite();
+        }
+        catch (RuntimeException ex){
+            yandexHomePage.re_entry();
+        }
+
         Assertions.assertEquals(yandexHomePage.extractEmail(), "seleniumtests@tut.by", "User is authorized");
     }
 
@@ -36,10 +42,13 @@ public class YandexTests extends BaseStep implements TestWatcher {
     @Tag("not stable")
     public void verifyLoginOut() throws IOException {
         yandexHomePage = new YandexHomePage(driver);
-        yandexHomePage.loginToSite();
+        try{
+            yandexHomePage.loginToSite();
+        }
+        catch (RuntimeException ex){
+            yandexHomePage.re_entry();
+        }
         yandexHomePage.logOut();
         Assertions.assertTrue(yandexHomePage.loginButtonIsdisplayed());
     }
-
-
 }

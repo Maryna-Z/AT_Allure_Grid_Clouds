@@ -2,31 +2,25 @@ package test_extensions;
 
 import driver.Config;
 import driver.DriverSingleton;
+import io.qameta.allure.Allure;
 import io.qameta.allure.Attachment;
-import org.apache.commons.io.FileUtils;
+import io.qameta.allure.model.Parameter;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.TestWatcher;
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
-
-import java.io.File;
-import java.io.IOException;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class ScreenshotRules implements TestWatcher {
 
-    //----------СПРОСИТЬ КАК НОРМАЛЬНО ПРОБРОСИТЬ ДРАЙВЕР
     public WebDriver driver = DriverSingleton.getInstance().getDriver(Config.CHROME);
 
     @Override
     public void testFailed(ExtensionContext context, Throwable cause) {
         takeScreenshot();
-        /*try {
-            takeScreenshot();
-            //takeScreenshot(Utils.fileNameGenerator());
-        } catch (IOException e) {
-            System.out.println("Error to take screenshot");;
-        }*/
+        addTestResultParameters();
     }
 
     @Attachment(value = "Page screenshot", type = "image/png")
@@ -35,6 +29,7 @@ public class ScreenshotRules implements TestWatcher {
     }
 
     public void takeScreenshot(){
+        WebDriver driver = DriverSingleton.getInstance().getDriver(Config.CHROME);
         if (driver == null) {
             System.out.println("");
             return;
@@ -43,8 +38,18 @@ public class ScreenshotRules implements TestWatcher {
         saveScreenshot(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES));
     }
 
-    public void takeScreenshot(String pathname) throws IOException {
-        File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-        FileUtils.copyFile(src, new File(pathname));
+    public void addTestResultParameters(){
+
+        Capabilities cap = ((RemoteWebDriver) driver).getCapabilities();
+        String browserName = cap.getBrowserName().toLowerCase();
+        String os = cap.getPlatform().toString().toLowerCase();
+        final String browserVersion = cap.getVersion().toLowerCase();
+        String browser = String.format("%s:%s:%s", browserName, browserVersion, os);
+
+        Allure.getLifecycle().updateTestCase(result -> {
+            result.getParameters().add(new Parameter()
+            .withName("Browser")
+            .withValue(browser));
+        });
     }
 }

@@ -56,5 +56,13 @@ public class YandexHomePage {
     public boolean loginButtonIsdisplayed(){
         return loginButton.isDisplayed();
     }
+
+    @Step("re-entry")
+    public void re_entry(){
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        driver.get("https://yandex.by/");
+        loginButton.click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("passp-field-passwd"))).sendKeys(properties.getProperty("PASSWORD"));
+        driver.findElement(By.xpath("//div[contains(@class, 'passp-button')]/button")).click();
+    }
 }
-//*[@id="app"]/div[3]/div[4]/a[2]

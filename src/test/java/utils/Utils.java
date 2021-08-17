@@ -1,13 +1,11 @@
 package utils;
 
+import driver.Config;
+import driver.DriverSingleton;
 import exceptions.NoSuchFileException;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,16 +24,6 @@ public class Utils {
             throw new NoSuchFileException("File not found", ex);
         }
         return properties;
-    }
-
-    //-------------- СПРОСИТЬ КАК ПРОБРОСИТЬ ДРАЙВЕР ЧТОБЫ МЕТОД БЫЛ В Utils КЛАССЕ
-    public static void takeScreenShot(WebDriver driver){
-            File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-        try {
-            FileUtils.copyFile(src, new File(fileNameGenerator()));
-        } catch (IOException e) {
-            throw new RuntimeException("Could not make a screenshot");
-        }
     }
 
     public static String fileNameGenerator() {
