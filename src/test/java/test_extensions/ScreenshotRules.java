@@ -14,8 +14,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class ScreenshotRules implements TestWatcher {
-
-    public WebDriver driver = DriverSingleton.getInstance().getDriver(Config.CHROME);
+    //Problems at here
+    WebDriver driver = DriverSingleton.getInstance().getDriver(Config.CHROME);
 
     @Override
     public void testFailed(ExtensionContext context, Throwable cause) {
@@ -29,7 +29,7 @@ public class ScreenshotRules implements TestWatcher {
     }
 
     public void takeScreenshot(){
-        WebDriver driver = DriverSingleton.getInstance().getDriver(Config.CHROME);
+
         if (driver == null) {
             System.out.println("");
             return;
