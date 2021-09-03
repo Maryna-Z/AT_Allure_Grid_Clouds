@@ -10,17 +10,32 @@ import org.junit.jupiter.api.extension.TestWatcher;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-public class ScreenshotRules implements TestWatcher {
+import java.util.Optional;
 
-    public WebDriver driver = DriverSingleton.getInstance().getDriver(Config.CHROME);
+public class ScreenshotRules implements TestWatcher {
 
     @Override
     public void testFailed(ExtensionContext context, Throwable cause) {
         takeScreenshot();
         addTestResultParameters();
+        DriverSingleton.getInstance().closeWebDriver();
+    }
+
+    @Override
+    public void testDisabled(ExtensionContext context, Optional<String> reason) {
+        DriverSingleton.getInstance().closeWebDriver();
+    }
+
+    @Override
+    public void testSuccessful(ExtensionContext context) {
+        DriverSingleton.getInstance().closeWebDriver();
+    }
+
+    @Override
+    public void testAborted(ExtensionContext context, Throwable cause) {
+        DriverSingleton.getInstance().closeWebDriver();
     }
 
     @Attachment(value = "Page screenshot", type = "image/png")
@@ -29,18 +44,12 @@ public class ScreenshotRules implements TestWatcher {
     }
 
     public void takeScreenshot(){
-        WebDriver driver = DriverSingleton.getInstance().getDriver(Config.CHROME);
-        if (driver == null) {
-            System.out.println("");
-            return;
-        }
-
-        saveScreenshot(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES));
+        saveScreenshot(((TakesScreenshot) DriverSingleton.getInstance().getCurrentWebDriver()).getScreenshotAs(OutputType.BYTES));
     }
 
     public void addTestResultParameters(){
 
-        Capabilities cap = ((RemoteWebDriver) driver).getCapabilities();
+        Capabilities cap = ((RemoteWebDriver) DriverSingleton.getInstance().getCurrentWebDriver()).getCapabilities();
         String browserName = cap.getBrowserName().toLowerCase();
         String os = cap.getPlatform().toString().toLowerCase();
         final String browserVersion = cap.getVersion().toLowerCase();

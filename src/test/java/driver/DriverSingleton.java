@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public class DriverSingleton {
     private static volatile DriverSingleton instance;
-    private ThreadLocal<WebDriver> webDriver = new ThreadLocal<>();
+    private WebDriver webDriver;
 
     private DriverSingleton(){
     }
@@ -28,24 +28,32 @@ public class DriverSingleton {
     }
 
     public WebDriver getDriver(Config config){
-        WebDriver driver = webDriver.get();
-        if (driver == null){
+        if (webDriver == null){
             switch(config) {
                 case CHROME:
                     ChromeOptions chromeOptions = new ChromeOptions();
                     chromeOptions.addArguments("--start-maximized");
-                    driver = new ChromeDriver(chromeOptions);
+                    webDriver = new ChromeDriver(chromeOptions);
                     break;
                 case FF:
                     System.setProperty("webdriver.gecko.driver", "c:\\Users\\user\\Java\\webdrivers\\firefox\\geckodriver.exe");
-                    driver = new FirefoxDriver();
+                    webDriver = new FirefoxDriver();
                     break;
                 default:
-                    driver = null;
+                    webDriver = null;
             }
-            Optional.ofNullable(driver)
-                    .ifPresent(dr -> webDriver.set(dr));
         }
-        return driver;
+        return webDriver;
+    }
+
+    public WebDriver getCurrentWebDriver(){
+        return webDriver;
+    }
+
+    public void closeWebDriver(){
+        if (webDriver != null ){
+            webDriver.close();
+            webDriver = null;
+        }
     }
 }

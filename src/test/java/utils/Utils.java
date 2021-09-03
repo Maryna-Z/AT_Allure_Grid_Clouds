@@ -4,7 +4,10 @@ import driver.Config;
 import driver.DriverSingleton;
 import exceptions.NoSuchFileException;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.CapabilityType;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -31,5 +34,20 @@ public class Utils {
         String path = "src/test/resources/";
         return path + "screenshot" + formatter.format(new Date()).replaceAll(":", "-")
                 + " " + RandomStringUtils.randomAlphanumeric(10) + ".png";
+    }
+
+    public static String getBrowserName(WebDriver driver){
+        Capabilities cap = ((RemoteWebDriver)driver).getCapabilities();
+        return cap.getBrowserName().toLowerCase();
+    }
+
+    public static String getBrowserVersion(WebDriver driver){
+        Capabilities cap = ((RemoteWebDriver)driver).getCapabilities();
+        return cap.getVersion();
+    }
+
+    public static String getOsName(WebDriver driver){
+        Capabilities cap = ((RemoteWebDriver)driver).getCapabilities();
+        return cap.getPlatform().toString();
     }
 }
