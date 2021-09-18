@@ -1,6 +1,5 @@
 package test_extensions;
 
-import driver.Config;
 import driver.DriverSingleton;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Attachment;

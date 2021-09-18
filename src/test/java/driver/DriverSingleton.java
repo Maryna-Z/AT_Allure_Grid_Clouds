@@ -5,8 +5,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-import java.util.Optional;
-
 public class DriverSingleton {
     private static volatile DriverSingleton instance;
     private WebDriver webDriver;
