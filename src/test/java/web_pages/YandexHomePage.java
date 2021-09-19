@@ -17,9 +17,23 @@ public class YandexHomePage {
 
     private String propertyPath = "src/test/resources/mail.properties";
     private Properties properties = Utils.getProperties(propertyPath);
+    private String url = "https://yandex.by/";
 
     @FindBy(xpath = "//div[contains(@class, 'login-new-items')]/a")
     private WebElement loginButton;
+
+    @FindBy(id = "passp-field-login")
+    private WebElement email;
+
+    @FindBy(xpath = "//button[@type = 'submit']")
+    private WebElement submitButton;
+
+    @FindBy(css = "[data-statlog $= exit]")
+    private WebElement logout;
+
+    private String password = "passp-field-passwd";
+    private String userName = "//span[contains(@class, 'username ')]";
+    private String avatarImage = "[data-statlog $= toggle-icon]";
 
     public YandexHomePage(WebDriver driver) {
         this.driver = driver;
@@ -29,40 +43,29 @@ public class YandexHomePage {
     @Step("Login to site")
     public void loginToSite(){
         WebDriverWait wait = new WebDriverWait(driver, 10);
-        driver.get("https://yandex.by/");
+        driver.get(url);
         loginButton.click();
-        driver.findElement(By.id("passp-field-login")).sendKeys(properties.getProperty("USER_NAME"));
-        driver.findElement(By.xpath("//button[@type = 'submit']")).click();
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("passp-field-passwd"))).sendKeys(properties.getProperty("PASSWORD"));
-        driver.findElement(By.xpath("//div[contains(@class, 'passp-button')]/button")).click();
+        email.sendKeys(properties.getProperty("USER_NAME"));
+        submitButton.click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id(password))).sendKeys(properties.getProperty("PASSWORD"));
+        submitButton.click();
     }
 
     @Step("Extract email")
     public String extractEmail(){
         WebDriverWait wait = new WebDriverWait(driver, 10);
-        return wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//span[contains(@class, 'username ')]"))).getText();
+        return wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(userName))).getText();
     }
 
     @Step("Logout from site")
     public void logOut(){
         WebDriverWait wait = new WebDriverWait(driver, 10);
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a/span[contains(@class, 'wrapper')]/span[contains(@class, 'avatar__image')]"))).click();
-        driver.findElement(By.xpath("//a/span[contains(@class, 'wrapper')]/span[contains(@class, 'avatar__image')]"));
-        driver.findElement(By.xpath("//div[contains(@class, 'usermenu')]/ul[contains(@class, 'menu')]"));
-        driver.findElement(By.xpath("//div[contains(@class, 'usermenu')]/ul[contains(@class, 'menu')]//following::li[last()]/a")).click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(avatarImage))).click();
+        logout.click();
     }
 
     @Step("Login button is displayed")
     public boolean loginButtonIsdisplayed(){
         return loginButton.isDisplayed();
-    }
-
-    @Step("re-entry")
-    public void re_entry(){
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-        driver.get("https://yandex.by/");
-        loginButton.click();
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("passp-field-passwd"))).sendKeys(properties.getProperty("PASSWORD"));
-        driver.findElement(By.xpath("//div[contains(@class, 'passp-button')]/button")).click();
     }
 }

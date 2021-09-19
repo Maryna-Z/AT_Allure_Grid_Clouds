@@ -1,6 +1,5 @@
 java -jar selenium-server-standalone-3.141.59.jar -role hub
 
-java -jar selenium-server-standalone-3.141.59.jar -role node -hub http://localhost:4444/grid/register
+java -jar selenium-server-standalone-3.141.59.jar -role node -hub http://localhost:4444/grid/register -browser browserName=chrome,version=93.0.4577.82,maxInstances=5,platform=WINDOWS
 
-java -jar selenium-server-standalone-3.141.59.jar -role node -hub http://marina-VirtualBox:4444/grid/register
-
+java -Dwebdriver.gecko.driver="C:\Users\Wind\selenium\drivers\firefox\geckodriver.exe" -jar selenium-server-standalone-3.141.59.jar -role webdriver -hub http://192.168.100.4:4444/grid/register -port 5566 -browser browserName=firefox,version=92.0,maxInstances=5,platform=WINDOWS
