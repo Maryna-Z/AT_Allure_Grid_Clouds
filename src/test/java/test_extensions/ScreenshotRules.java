@@ -36,7 +36,6 @@ public class ScreenshotRules implements TestWatcher {
     public void testAborted(ExtensionContext context, Throwable cause) {
         DriverSingleton.getInstance().closeWebDriver();
     }
-
     @Attachment(value = "Page screenshot", type = "image/png")
     public byte[] saveScreenshot(byte[] screenShot) {
         return screenShot;

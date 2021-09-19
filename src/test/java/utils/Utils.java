@@ -1,12 +1,9 @@
 package utils;
 
-import driver.Config;
-import driver.DriverSingleton;
 import exceptions.NoSuchFileException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.io.FileInputStream;

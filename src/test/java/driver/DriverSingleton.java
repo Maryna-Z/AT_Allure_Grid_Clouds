@@ -7,17 +7,17 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class DriverSingleton {
     private static volatile DriverSingleton instance;
-    private WebDriver webDriver;
+    private ThreadLocal<WebDriver> webDriver = new ThreadLocal<>();
 
-    private DriverSingleton(){
+    private DriverSingleton() {
     }
 
-    public static DriverSingleton getInstance(){
+    public static DriverSingleton getInstance() {
         DriverSingleton localInstance = instance;
         if (localInstance == null) {
             synchronized (DriverSingleton.class) {
                 localInstance = instance;
-                if (localInstance == null){
+                if (localInstance == null) {
                     instance = localInstance = new DriverSingleton();
                 }
             }
@@ -25,33 +25,37 @@ public class DriverSingleton {
         return localInstance;
     }
 
-    public WebDriver getDriver(Config config){
-        if (webDriver == null){
-            switch(config) {
+    public WebDriver getDriver(Config config) {
+        WebDriver driver = webDriver.get();
+        if (driver == null) {
+            switch (config) {
                 case CHROME:
                     ChromeOptions chromeOptions = new ChromeOptions();
                     chromeOptions.addArguments("--start-maximized");
-                    webDriver = new ChromeDriver(chromeOptions);
+                    driver = new ChromeDriver(chromeOptions);
                     break;
                 case FF:
                     System.setProperty("webdriver.gecko.driver", "c:\\Users\\user\\Java\\webdrivers\\firefox\\geckodriver.exe");
-                    webDriver = new FirefoxDriver();
+                    driver = new FirefoxDriver();
                     break;
                 default:
-                    webDriver = null;
+                    driver = null;
             }
         }
-        return webDriver;
+        webDriver.set(driver);
+        return driver;
     }
 
-    public WebDriver getCurrentWebDriver(){
-        return webDriver;
+    public WebDriver getCurrentWebDriver() {
+        return webDriver.get();
     }
 
-    public void closeWebDriver(){
-        if (webDriver != null ){
-            webDriver.close();
-            webDriver = null;
+    public void closeWebDriver() {
+        WebDriver driver = this.webDriver.get();
+        if (driver != null) {
+            driver.close();
+            driver.quit();
+            webDriver.set(null);
         }
     }
 }

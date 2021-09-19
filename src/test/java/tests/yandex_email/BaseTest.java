@@ -3,14 +3,9 @@ package tests.yandex_email;
 import com.google.common.collect.ImmutableMap;
 import driver.Config;
 import driver.DriverSingleton;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import test_extensions.ScreenshotRules;
 import utils.Utils;
 
@@ -31,5 +26,4 @@ public class BaseTest {
         );
 
     }
-
 }
