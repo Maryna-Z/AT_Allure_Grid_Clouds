@@ -4,16 +4,19 @@ import io.qameta.allure.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import web_pages.YandexHomePage;
 
 import java.io.IOException;
 
+import static org.junit.jupiter.api.parallel.ExecutionMode.CONCURRENT;
+
 @Epic("Allure reporting")
 @Feature("Junit 5 support")
 @Tag("Yandex is started page")
-
+@Execution(CONCURRENT)
 public class YandexTests extends BaseTest{
     private YandexHomePage yandexHomePage;
 

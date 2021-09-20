@@ -34,6 +34,7 @@ public class YandexHomePage {
     private String password = "passp-field-passwd";
     private String userName = "//span[contains(@class, 'username ')]";
     private String avatarImage = "[data-statlog $= toggle-icon]";
+    private String logoutCSS = "[data-statlog $= exit]";
 
     public YandexHomePage(WebDriver driver) {
         this.driver = driver;
@@ -61,7 +62,8 @@ public class YandexHomePage {
     public void logOut(){
         WebDriverWait wait = new WebDriverWait(driver, 10);
         wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(avatarImage))).click();
-        logout.click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(logoutCSS))).click();
+        //logout.click();
     }
 
     @Step("Login button is displayed")

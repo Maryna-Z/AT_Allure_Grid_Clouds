@@ -75,8 +75,8 @@ public class DriverSingleton {
     public void closeWebDriver() {
         WebDriver driver = this.webDriver.get();
         if (driver != null) {
-            driver.close();
-           //driver.quit();
+            //driver.close();
+            driver.quit();
             webDriver.set(null);
         }
     }
