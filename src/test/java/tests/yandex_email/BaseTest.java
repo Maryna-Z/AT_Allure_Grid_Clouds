@@ -16,7 +16,7 @@ public class BaseTest {
 
     @BeforeEach
     public void init(){
-        driver = DriverSingleton.getInstance().getDriver(Config.CHROME);
+        driver = DriverSingleton.getInstance().getDriver(Config.REMOTE_CHROME);
         allureEnvironmentWriter(
                 ImmutableMap.<String, String>builder()
                         .put("Browser", Utils.getBrowserName(driver))
