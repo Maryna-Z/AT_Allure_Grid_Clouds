@@ -9,14 +9,17 @@ import org.openqa.selenium.WebDriver;
 import test_extensions.ScreenshotRules;
 import utils.Utils;
 
+import java.net.MalformedURLException;
+
 import static com.github.automatedowl.tools.AllureEnvironmentWriter.allureEnvironmentWriter;
 @ExtendWith(ScreenshotRules.class)
 public class BaseTest {
     WebDriver driver;
 
     @BeforeEach
-    public void init(){
-        driver = DriverSingleton.getInstance().getDriver(Config.REMOTE_CHROME);
+    public void init() throws MalformedURLException {
+        //driver = DriverSingleton.getInstance().getRemoteDriver("Windows 10", "chrome", "latest");
+        driver = DriverSingleton.getInstance().getDriver(Config.CLOUD_FF);
         allureEnvironmentWriter(
                 ImmutableMap.<String, String>builder()
                         .put("Browser", Utils.getBrowserName(driver))

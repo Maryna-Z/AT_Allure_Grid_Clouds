@@ -1,6 +1,6 @@
 package utils;
 
-import exceptions.NoSuchFileException;
+import exceptions.CommonException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
@@ -21,7 +21,7 @@ public class Utils {
         try (InputStream input = new FileInputStream(path)) {
             properties.load(input);
         } catch (IOException ex) {
-            throw new NoSuchFileException("File not found", ex);
+            throw new CommonException("File not found", ex);
         }
         return properties;
     }
